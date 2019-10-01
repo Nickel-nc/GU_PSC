@@ -5,7 +5,7 @@ from jobparser.items import JobparserItem
 
 
 class SjruSpider(scrapy.Spider):
-    name = 'sjru'
+    name = 'superjob.ru'
     allowed_domains = ['superjob.ru']
     start_urls = ['https://www.superjob.ru/vacancy/search/?keywords=Python']
 
@@ -34,8 +34,8 @@ class SjruSpider(scrapy.Spider):
         ).extract_first()
 
         salary = response.xpath(
-            '//span[contains(@class, "ZON4b")]//text()'
-        ).extract_first()
+            '//span[@class="_3mfro _2Wp8I ZON4b PlM3e _2JVkc"]//text()'
+        ).extract()
 
         salary_min = None
         salary_max = None
@@ -47,8 +47,8 @@ class SjruSpider(scrapy.Spider):
         vacancy_link = response.url
 
         publish_date = response.xpath(
-            '//div[@class="_2g1F-"]/span[@class="_3mfro _9fXTd _2JVkc _3e53o"]/text()'
-        ).extract_first()
+            '//div[@class="_2g1F-"]/span[@class="_3mfro _9fXTd _2JVkc _3e53o"]//text()'
+        ).extract()
 
         address_raw = response.xpath(
             '//span[@class="_3mfro _1hP6a _2JVkc"]/text()'

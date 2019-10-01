@@ -5,7 +5,7 @@ from jobparser.items import JobparserItem
 
 
 class HhruSpider(scrapy.Spider):
-    name = 'hhru'
+    name = 'hh.ru'
     allowed_domains = ['hh.ru']
     start_urls = ['https://hh.ru/search/vacancy?area=1&text=Python']
 
@@ -29,11 +29,11 @@ class HhruSpider(scrapy.Spider):
     def vacancy_parse(self, response:HtmlResponse):
 
         vacancy_name = response.xpath(
-            '//div[@class="vacancy-title "]/h1[@class="header"]/text()'
-        ).extract_first()
+            '//div[@class="vacancy-title "]/h1[@class="header"]//text()'
+        ).extract()
 
         salary = response.xpath(
-            '//p[@class="vacancy-salary"]/text()'
+            '//p[@class="vacancy-salary"]//text()'
         ).extract_first()
 
         salary_min = None
