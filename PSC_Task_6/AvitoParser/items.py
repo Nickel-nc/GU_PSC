@@ -9,7 +9,6 @@ import scrapy
 from scrapy.loader.processors import MapCompose, TakeFirst
 
 
-
 def cleaner_photo(values):
     if values[:2] == '//':
         return f'http:{values}'
@@ -27,7 +26,7 @@ def cleaner_city(values):
         return None
 
 def process_params(params):
-    return dict((x.replace(x[-1], ''), y.replace(y[-1],'')) for x, y in params)
+    return dict((x.replace(': ', ''), y[:-1]) for x, y in params)
 
 
 class AvitoAvto(scrapy.Item):
@@ -38,4 +37,4 @@ class AvitoAvto(scrapy.Item):
     currency = scrapy.Field(output_processor=TakeFirst())
     link = scrapy.Field(output_processor=TakeFirst())
     params = scrapy.Field(input_processor=process_params, output_processor=TakeFirst())
-    city = scrapy.Field(output_processor=TakeFirst())
+    # city = scrapy.Field(output_processor=TakeFirst())

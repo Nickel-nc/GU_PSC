@@ -23,14 +23,15 @@ class AvitoSpider(scrapy.Spider):
 
         parameters = response.xpath('//div[@class="item-view-block"]//li/span/text()').getall()
         parameters_values = response.xpath('//div[@class="item-view-block"]//li/span/following-sibling::text()').getall()
+        params = zip(parameters, parameters_values)
 
         loader.add_xpath('photos','//div[contains(@class, "gallery-img-wrapper")]//div[contains(@class, "gallery-img-frame")]/@data-url')
         loader.add_xpath('title', '//h1[@class="title-info-title"]/span/text()')
         loader.add_xpath('price', '//div[@class="item-price-value-wrapper"]//span[@class="js-item-price"]/@content')
         loader.add_xpath('currency', '//div[@class="item-price-value-wrapper"]//span[@itemprop="priceCurrency"]/@content')
-        loader.add_value('params', zip(parameters, parameters_values))
-        loader.add_value('city', city)
+        loader.add_value('params', params)
+        # loader.add_value('city', city)
         loader.add_value('link', response.url)
 
-
         yield loader.load_item()
+
