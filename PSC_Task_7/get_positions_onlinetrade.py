@@ -4,7 +4,6 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from pymongo import MongoClient
-from pprint import  pprint
 
 try:
     client = MongoClient('localhost', 27017)
@@ -57,7 +56,6 @@ for good in goods:
             'bonus': bonus,
             'link': link
         })
-pprint(goods_data)
 
 collection.insert_many(goods_data)
 
@@ -65,4 +63,3 @@ print("Data collection done:")
 print(f'added {len(goods_data)} item(s)')
 
 driver.quit()
-
