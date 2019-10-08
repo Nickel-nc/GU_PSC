@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 import time
 from pymongo import MongoClient
+from pprint import  pprint
 
 try:
     client = MongoClient('localhost', 27017)
@@ -28,7 +29,7 @@ is_disabled = button.get_attribute("aria-disabled")
 #     is_disabled = button.get_attribute("aria-disabled")
 
 goods = driver.find_elements_by_xpath('//div[@id="tabs_hits"]//div[contains(@class,"swiper-slide indexGoods__item")]')
-print('len is', len(goods))
+# print('len is', len(goods))
 goods_data = []
 
 for good in goods:
@@ -45,6 +46,7 @@ for good in goods:
         item_name = good.find_element_by_class_name('indexGoods__item__name').text
     price = good.find_element_by_class_name('price').text[:-2].replace(' ', '')
     bonus = good.find_element_by_class_name('indexGoods__item__bonuses').text[:-2].replace(' ', '')
+    link = good.find_element_by_class_name('indexGoods__item__name').get_attribute('href')
 
     if item_name == '':
         pass
@@ -52,13 +54,15 @@ for good in goods:
         goods_data.append({
             'item_name': item_name,
             'price': price,
-            'bonus': bonus
+            'bonus': bonus,
+            'link': link
         })
+pprint(goods_data)
 
 collection.insert_many(goods_data)
 
 print("Data collection done:")
-print(f'added {len(goods) - len(goods_data)} item(s)')
+print(f'added {len(goods_data)} item(s)')
 
 driver.quit()
 
